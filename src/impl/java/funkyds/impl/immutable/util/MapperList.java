@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import funkyds.api.immutable.List;
+import funkyds.impl.immutable.SimpleList;
 
 public class MapperList<E, F> implements List<F> {
 
@@ -18,23 +19,21 @@ public class MapperList<E, F> implements List<F> {
 
 	@Override
 	public List<F> add(F item) {
-		return null;
+		return new SimpleList<F>(item, this);
 	}
 
 	@Override
 	public Optional<F> get(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		return containedList.get(index).map(mapper);
 	}
 
 	@Override
 	public <G> List<G> map(Function<F, G> mapper) {
-		return null;
+		return new MapperList<F,G>(this, mapper);
 	}
 
 	@Override
 	public <G> List<G> flatMap(Function<F, List<G>> flatMapper) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

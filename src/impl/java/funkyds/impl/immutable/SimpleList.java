@@ -15,7 +15,7 @@ public class SimpleList<E> implements List<E> {
 		return new SimpleList<E>(item, tail);
 	}
 
-	protected SimpleList(E head, List<E> tail) {
+	public SimpleList(E head, List<E> tail) {
 		this.head = head;
 		this.tail = tail;
 		this.index = tail.length();
