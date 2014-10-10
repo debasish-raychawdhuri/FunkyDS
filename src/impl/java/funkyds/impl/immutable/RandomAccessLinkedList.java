@@ -85,7 +85,7 @@ public class RandomAccessLinkedList<E> implements List<E> {
 		} else {
 			int logDistance = calcMaxIndex(distance);
 			int jumpIndex = min(index, logDistance);
-			System.out.println("jump " + jumpIndex);
+			System.out.println(jumpIndex);
 			return links[jumpIndex].get(target);
 
 		}
@@ -163,12 +163,30 @@ public class RandomAccessLinkedList<E> implements List<E> {
 
 	public static void main(String[] args) {
 		List<Integer> list = RandomAccessLinkedList.emptyList();
-		for (int i = 0; i < 2000000; i++) {
+		long zero = System.currentTimeMillis();
+		for (int i = 0; i < 1000000; i++) {
 			list = list.add(i + 2);
 		}
+		long one = System.currentTimeMillis();
+		for (int i = 0; i < 1000000; i++) {
+			list = list.add(i + 2);
+		}
+		long two = System.currentTimeMillis();
+		for (int i = 0; i < 1000011; i++) {
+			list = list.add(i + 2);
+		}
+		long three = System.currentTimeMillis();
+		System.out.println((one - zero) + "  " + (two - one) + "  "
+				+ (three - two));
+		System.out.println();
+		long four = System.currentTimeMillis();
+		// for (int i = 0; i < 10000; i++) {
+		// list.get(i);
+		// }
+		long five = System.currentTimeMillis();
 
-		System.out.println(list.get(1021));
-		System.out.println(calcMaxIndex(6));
+		System.out.println(list.get(1));
+		System.out.println(five - four);
 	}
 
 	@Override
