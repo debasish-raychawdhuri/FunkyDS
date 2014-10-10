@@ -23,7 +23,7 @@ public class RandomAccessLinkedList<E> implements List<E> {
 	public RandomAccessLinkedList(E head, RandomAccessLinkedList<E> tail) {
 		this.head = head;
 		this.index = tail.length();
-		maxIndex = calcLog2(index + 1);
+		maxIndex = calcMaxIndex(index + 1);
 		links = new RandomAccessLinkedList[maxIndex + 1];
 		links[0] = tail;
 		for (int i = 1; i <= maxIndex; i++) {
@@ -83,9 +83,8 @@ public class RandomAccessLinkedList<E> implements List<E> {
 		} else if (distance < 0) {
 			return Optional.empty();
 		} else {
-			int logDistance = calcMaxIndex(distance);
-			int jumpIndex = min(index, logDistance);
-			System.out.println(jumpIndex);
+			int logDistance = calcLog2(distance);
+			int jumpIndex = min(maxIndex, logDistance);
 			return links[jumpIndex].get(target);
 
 		}
@@ -172,7 +171,7 @@ public class RandomAccessLinkedList<E> implements List<E> {
 			list = list.add(i + 2);
 		}
 		long two = System.currentTimeMillis();
-		for (int i = 0; i < 1000011; i++) {
+		for (int i = 0; i < 10000110; i++) {
 			list = list.add(i + 2);
 		}
 		long three = System.currentTimeMillis();
@@ -180,9 +179,9 @@ public class RandomAccessLinkedList<E> implements List<E> {
 				+ (three - two));
 		System.out.println();
 		long four = System.currentTimeMillis();
-		// for (int i = 0; i < 10000; i++) {
-		// list.get(i);
-		// }
+		for (int i = 0; i < 10000; i++) {
+			list.get(i + 1012);
+		}
 		long five = System.currentTimeMillis();
 
 		System.out.println(list.get(1));
