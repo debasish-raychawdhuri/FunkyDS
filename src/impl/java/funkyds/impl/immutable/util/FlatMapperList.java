@@ -6,15 +6,14 @@ import java.util.function.Function;
 import funkyds.api.immutable.List;
 import funkyds.impl.immutable.SimpleList;
 
-public class MapperList<E, F> implements List<F> {
-
+public class FlatMapperList<E, F> implements List<F> {
 	private final List<E> containedList;
-	private final Function<E, F> mapper;
+	private final Function<E, List<F>> flatMapper;
 
-	public MapperList(List<E> containedList, Function<E, F> mapper) {
+	public FlatMapperList(List<E> containedList, Function<E, List<F>> flatMapper) {
 		super();
 		this.containedList = containedList;
-		this.mapper = mapper;
+		this.flatMapper = flatMapper;
 	}
 
 	@Override
@@ -24,7 +23,7 @@ public class MapperList<E, F> implements List<F> {
 
 	@Override
 	public Optional<F> get(int index) {
-		return containedList.get(index).map(mapper);
+		return containedList.flatMap(flatMapper).get(index);
 	}
 
 	@Override
@@ -34,7 +33,7 @@ public class MapperList<E, F> implements List<F> {
 
 	@Override
 	public <G> List<G> flatMap(Function<F, List<G>> flatMapper) {
-		return null;
+		return new FlatMapperList<F, G>(this, flatMapper);
 	}
 
 	@Override
@@ -47,7 +46,7 @@ public class MapperList<E, F> implements List<F> {
 	public boolean contains(F item) {
 		if (containedList.isEmpty()) {
 			return false;
-		} else if (containedList.head().map(mapper)
+		} else if (containedList.flatMap(flatMapper).head()
 				.equals(Optional.ofNullable(item))) {
 			return true;
 		} else {
@@ -59,7 +58,7 @@ public class MapperList<E, F> implements List<F> {
 	public boolean contains(Function<F, Boolean> selector) {
 		if (containedList.isEmpty()) {
 			return false;
-		} else if (containedList.head().map(mapper).map(selector).get()) {
+		} else if (containedList.flatMap(flatMapper).head().map(selector).get()) {
 			return true;
 		} else {
 			return tail().contains(selector);
@@ -68,12 +67,13 @@ public class MapperList<E, F> implements List<F> {
 
 	@Override
 	public Optional<F> head() {
-		return containedList.head().map(mapper);
+		return containedList.flatMap(flatMapper).head();
+
 	}
 
 	@Override
 	public List<F> tail() {
-		return containedList.tail().map(mapper);
+		return containedList.flatMap(flatMapper).tail();
 	}
 
 	@Override
@@ -85,5 +85,4 @@ public class MapperList<E, F> implements List<F> {
 	public int length() {
 		return containedList.length();
 	}
-
 }
