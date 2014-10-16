@@ -23,7 +23,22 @@ public class FlatMapperList<E, F> implements List<F> {
 
 	@Override
 	public Optional<F> get(int index) {
-		return containedList.flatMap(flatMapper).get(index);
+		Optional<List<F>> first = containedList.head().map(flatMapper);
+		if (first.isPresent()) {
+			List<F> firstList = first.get();
+			if (firstList.isEmpty()) {
+				return Optional.empty();
+			} else {
+				if (firstList.length() > index) {
+					return firstList.get(index);
+				} else {
+					return containedList.tail().flatMap(flatMapper)
+							.get(index - firstList.length());
+				}
+			}
+		} else {
+			return Optional.empty();
+		}
 	}
 
 	@Override
@@ -38,8 +53,7 @@ public class FlatMapperList<E, F> implements List<F> {
 
 	@Override
 	public List<F> filter(Function<F, Boolean> selector) {
-		// TODO Auto-generated method stub
-		return null;
+		return new FiltererList<F>(this, selector);
 	}
 
 	@Override
@@ -58,7 +72,7 @@ public class FlatMapperList<E, F> implements List<F> {
 	public boolean contains(Function<F, Boolean> selector) {
 		if (containedList.isEmpty()) {
 			return false;
-		} else if (containedList.flatMap(flatMapper).head().map(selector).get()) {
+		} else if (this.head().map(selector).get()) {
 			return true;
 		} else {
 			return tail().contains(selector);
@@ -67,13 +81,33 @@ public class FlatMapperList<E, F> implements List<F> {
 
 	@Override
 	public Optional<F> head() {
-		return containedList.flatMap(flatMapper).head();
+		Optional<List<F>> headList = containedList.head().map(flatMapper);
+		if (headList.isPresent()) {
+			if (headList.get().length() > 0) {
+				return headList.get().head();
+			} else {
+				return tail().head();
+			}
+
+		} else {
+			return tail().head();
+		}
 
 	}
 
 	@Override
 	public List<F> tail() {
-		return containedList.flatMap(flatMapper).tail();
+		Optional<List<F>> headList = containedList.head().map(flatMapper);
+		if (headList.isPresent()) {
+			if (headList.get().length() > 0) {
+				return headList.get().tail();
+			} else {
+				return containedList.tail().flatMap(flatMapper);
+			}
+
+		} else {
+			return containedList.tail().flatMap(flatMapper);
+		}
 	}
 
 	@Override

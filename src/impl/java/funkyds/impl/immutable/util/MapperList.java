@@ -34,13 +34,12 @@ public class MapperList<E, F> implements List<F> {
 
 	@Override
 	public <G> List<G> flatMap(Function<F, List<G>> flatMapper) {
-		return null;
+		return new FlatMapperList<F, G>(this, flatMapper);
 	}
 
 	@Override
 	public List<F> filter(Function<F, Boolean> selector) {
-		// TODO Auto-generated method stub
-		return null;
+		return new FiltererList<F>(this, selector);
 	}
 
 	@Override
