@@ -1,7 +1,6 @@
 package funkyds.impl.immutable;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Function;
@@ -208,67 +207,6 @@ public class RandomAccessLinkedList<E> implements List<E> {
 
 	protected static int min(int x, int y) {
 		return x > y ? y : x;
-	}
-
-	public static void main(String[] args) {
-		checkList();
-		checkJavaList();
-	}
-
-	public static void checkList() {
-		List<Integer> list = RandomAccessLinkedList.emptyList();
-		long zero = System.currentTimeMillis();
-		for (int i = 0; i < 1000000; i++) {
-			list = list.add(i + 2);
-		}
-		long one = System.currentTimeMillis();
-		for (int i = 0; i < 1000000; i++) {
-			list = list.add(i + 2);
-		}
-		long two = System.currentTimeMillis();
-		for (int i = 0; i < 10000110; i++) {
-			list = list.add(i + 2);
-		}
-		long three = System.currentTimeMillis();
-		System.out.println((one - zero) + "  " + (two - one) + "  "
-				+ (three - two));
-		System.out.println();
-		long four = System.currentTimeMillis();
-		for (int i = 0; i < 10000; i++) {
-			list.get(i + 6000023);
-		}
-		long five = System.currentTimeMillis();
-
-		System.out.println(list.get(1));
-		System.out.println(five - four);
-	}
-
-	public static void checkJavaList() {
-		LinkedList<Integer> list = new LinkedList<Integer>();
-		long zero = System.currentTimeMillis();
-		for (int i = 0; i < 1000000; i++) {
-			list.add(i + 2);
-		}
-		long one = System.currentTimeMillis();
-		for (int i = 0; i < 1000000; i++) {
-			list.add(i + 2);
-		}
-		long two = System.currentTimeMillis();
-		for (int i = 0; i < 10000110; i++) {
-			list.add(i + 2);
-		}
-		long three = System.currentTimeMillis();
-		System.out.println((one - zero) + "  " + (two - one) + "  "
-				+ (three - two));
-		System.out.println();
-		long four = System.currentTimeMillis();
-		for (int i = 0; i < 100; i++) {
-			list.get(i + 6000023);
-		}
-		long five = System.currentTimeMillis();
-
-		System.out.println(list.get(1));
-		System.out.println((five - four) * 100);
 	}
 
 	@Override

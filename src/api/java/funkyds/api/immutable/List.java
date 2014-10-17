@@ -21,6 +21,7 @@ public interface List<E> extends Iterable<E> {
 			if (cur.head().get().equals(item)) {
 				return true;
 			}
+			cur = cur.tail();
 		}
 		return false;
 
@@ -32,6 +33,7 @@ public interface List<E> extends Iterable<E> {
 			if (cur.head().map(selector).get()) {
 				return true;
 			}
+			cur = cur.tail();
 		}
 		return false;
 
