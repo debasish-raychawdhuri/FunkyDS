@@ -211,22 +211,7 @@ public class RandomAccessLinkedList<E> implements List<E> {
 
 	@Override
 	public String toString() {
-		return toString(true);
-	}
-
-	public String toString(boolean isOuter) {
-		String headString;
-		String tailString;
-		if (isOuter) {
-			headString = "[";
-			tailString = "]";
-		} else {
-			headString = "";
-			tailString = "";
-		}
-		return headString
-				+ ((links[0].isEmpty()) ? head.toString() : head.toString()
-						+ ", " + links[0].toString(false)) + tailString;
+		return reverse().toString(true);
 	}
 
 }

@@ -49,4 +49,20 @@ public interface List<E> extends Iterable<E> {
 
 	List<E> reverse();
 
+	public default String toString(boolean isOuter) {
+
+		String headString;
+		String tailString;
+		if (isOuter) {
+			headString = "[";
+			tailString = "]";
+		} else {
+			headString = "";
+			tailString = "";
+		}
+		return headString
+				+ ((tail().isEmpty()) ? head().toString() : head().toString()
+						+ ", " + tail().toString(false)) + tailString;
+	}
+
 }

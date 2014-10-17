@@ -1,5 +1,6 @@
 package funkyds.impl.immutable.util;
 
+import java.util.Iterator;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -83,6 +84,18 @@ public class MapperList<E, F> implements List<F> {
 	@Override
 	public int length() {
 		return containedList.length();
+	}
+
+	@Override
+	public Iterator<F> iterator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<F> reverse() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

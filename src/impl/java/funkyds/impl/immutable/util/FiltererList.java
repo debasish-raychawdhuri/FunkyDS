@@ -1,5 +1,6 @@
 package funkyds.impl.immutable.util;
 
+import java.util.Iterator;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -105,6 +106,18 @@ public class FiltererList<E> implements List<E> {
 		} else {
 			return tail().length();
 		}
+	}
+
+	@Override
+	public Iterator<E> iterator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<E> reverse() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

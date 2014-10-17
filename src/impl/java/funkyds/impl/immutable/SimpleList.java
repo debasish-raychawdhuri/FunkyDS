@@ -20,7 +20,7 @@ public class SimpleList<E> implements List<E> {
 
 	@Override
 	public List<E> add(E item) {
-		return new SimpleList<E>(item, tail);
+		return new SimpleList<E>(item, this);
 	}
 
 	public SimpleList(E head, List<E> tail) {
@@ -31,13 +31,14 @@ public class SimpleList<E> implements List<E> {
 
 	@Override
 	public Optional<E> get(int index) {
-		if (this.isEmpty()) {
-			return Optional.empty();
-		} else if (index == this.index) {
-			return Optional.of(head);
-		} else {
-			return tail.get(index);
+		List<E> cur = this;
+		while (!cur.isEmpty()) {
+			if (cur.tail().length() == index) {
+				return cur.head();
+			}
+			cur = cur.tail();
 		}
+		return Optional.empty();
 	}
 
 	/**
@@ -118,28 +119,6 @@ public class SimpleList<E> implements List<E> {
 	}
 
 	@Override
-	public boolean contains(E item) {
-		if (isEmpty()) {
-			return false;
-		} else if (head().get().equals(item)) {
-			return true;
-		} else {
-			return tail().contains(item);
-		}
-	}
-
-	@Override
-	public boolean contains(Function<E, Boolean> selector) {
-		if (isEmpty()) {
-			return false;
-		} else if (head().map(selector).get()) {
-			return true;
-		} else {
-			return tail().contains(selector);
-		}
-	}
-
-	@Override
 	public Optional<E> head() {
 		return Optional.of(head);
 	}
@@ -194,4 +173,8 @@ public class SimpleList<E> implements List<E> {
 		};
 	}
 
+	@Override
+	public String toString() {
+		return reverse().toString(true);
+	}
 }
