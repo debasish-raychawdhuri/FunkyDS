@@ -1,6 +1,8 @@
 package funkyds.impl.immutable;
 
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -91,44 +93,91 @@ public class RandomAccessLinkedList<E> implements List<E> {
 		}
 	}
 
+	/**
+	 * The items are iterated in the reverse order of addition
+	 */
+	@Override
+	public Iterator<E> iterator() {
+		Iterator<E> iterator = new Iterator<E>() {
+			List<E> list = RandomAccessLinkedList.this;
+
+			@Override
+			public E next() {
+				if (list.isEmpty()) {
+					throw new NoSuchElementException(
+							"next() called on empty iterator");
+				}
+				E value = list.head().get();
+				list = list.tail();
+				return value;
+			}
+
+			@Override
+			public boolean hasNext() {
+				return !list.isEmpty();
+			}
+
+			@Override
+			public void remove() {
+				throw new UnsupportedOperationException(
+						"remove invoked on an iterator backed by a readonly object");
+			}
+		};
+		return iterator;
+	}
+
+	@Override
+	public List<E> reverse() {
+		List<E> l = RandomAccessLinkedList.emptyList();
+		for (E item : this) {
+			l = l.add(item);
+		}
+		return l;
+
+	}
+
 	@Override
 	public <F> List<F> map(Function<E, F> mapper) {
-		// TODO Auto-generated method stub
-		return null;
+		List<E> reversed = this.reverse();
+		List<F> target = RandomAccessLinkedList.emptyList();
+		for (E item : reversed) {
+			target = target.add(mapper.apply(item));
+		}
+		return target;
 	}
 
 	@Override
 	public <F> List<F> flatMap(Function<E, List<F>> flatMapper) {
-		// TODO Auto-generated method stub
-		return null;
+		List<E> reversed = this.reverse();
+		List<F> target = RandomAccessLinkedList.emptyList();
+		for (E item : reversed) {
+			for (F member : flatMapper.apply(item).reverse()) {
+				target = target.add(member);
+			}
+		}
+		return target;
 	}
 
 	@Override
 	public List<E> filter(Function<E, Boolean> selector) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean contains(E item) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean contains(Function<E, Boolean> selector) {
-		// TODO Auto-generated method stub
-		return false;
+		List<E> reversed = this.reverse();
+		List<E> target = RandomAccessLinkedList.emptyList();
+		for (E item : reversed) {
+			if (selector.apply(item)) {
+				target = target.add(item);
+			}
+		}
+		return target;
 	}
 
 	@Override
 	public Optional<E> head() {
-		return null;
+		return Optional.of(head);
 	}
 
 	@Override
 	public List<E> tail() {
-		return null;
+		return links[0];
 	}
 
 	@Override
@@ -241,4 +290,5 @@ public class RandomAccessLinkedList<E> implements List<E> {
 				+ ((links[0].isEmpty()) ? head.toString() : head.toString()
 						+ ", " + links[0].toString(false)) + tailString;
 	}
+
 }

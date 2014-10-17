@@ -3,7 +3,7 @@ package funkyds.api.immutable;
 import java.util.Optional;
 import java.util.function.Function;
 
-public interface List<E> {
+public interface List<E> extends Iterable<E> {
 	public List<E> add(E item);
 
 	public Optional<E> get(int index);
@@ -14,9 +14,28 @@ public interface List<E> {
 
 	public List<E> filter(Function<E, Boolean> selector);
 
-	public boolean contains(E item);
+	public default boolean contains(E item) {
 
-	public boolean contains(Function<E, Boolean> selector);
+		List<E> cur = this;
+		while (!cur.isEmpty()) {
+			if (cur.head().get().equals(item)) {
+				return true;
+			}
+		}
+		return false;
+
+	}
+
+	public default boolean contains(Function<E, Boolean> selector) {
+		List<E> cur = this;
+		while (!cur.isEmpty()) {
+			if (cur.head().map(selector).get()) {
+				return true;
+			}
+		}
+		return false;
+
+	}
 
 	public Optional<E> head();
 
@@ -25,4 +44,7 @@ public interface List<E> {
 	public boolean isEmpty();
 
 	public int length();
+
+	List<E> reverse();
+
 }
