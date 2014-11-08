@@ -1,11 +1,9 @@
-package funkyds.impl.immutable;
+package funkyds.immutable;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Function;
-
-import funkyds.api.immutable.List;
 
 public class RandomAccessLinkedList<E> implements List<E> {
 

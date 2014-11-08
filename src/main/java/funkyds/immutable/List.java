@@ -1,4 +1,4 @@
-package funkyds.api.immutable;
+package funkyds.immutable;
 
 import java.util.Optional;
 import java.util.function.Function;

@@ -1,11 +1,11 @@
-package funkyds.impl.immutable.util;
+package funkyds.immutable.util;
+
+import funkyds.immutable.List;
+import funkyds.immutable.SimpleList;
 
 import java.util.Iterator;
 import java.util.Optional;
 import java.util.function.Function;
-
-import funkyds.api.immutable.List;
-import funkyds.impl.immutable.SimpleList;
 
 public class FiltererList<E> implements List<E> {
 

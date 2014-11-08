@@ -1,7 +1,4 @@
-package funkyds.api.immutable;
-
-import funkyds.impl.immutable.RandomAccessLinkedList;
-import funkyds.impl.immutable.SimpleList;
+package funkyds.immutable;
 
 public class ListFactory {
 	public static <E> List<E> getEmptySimpleList() {

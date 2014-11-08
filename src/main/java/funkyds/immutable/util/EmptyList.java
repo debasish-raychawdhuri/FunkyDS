@@ -1,11 +1,9 @@
-package funkyds.impl.immutable;
+package funkyds.immutable.util;
+
+import funkyds.immutable.List;
 
 import java.util.Optional;
 import java.util.function.Function;
-
-import funkyds.api.immutable.List;
-import funkyds.impl.immutable.util.FlatMapperList;
-import funkyds.impl.immutable.util.MapperList;
 
 public interface EmptyList<E> extends List<E> {
 
