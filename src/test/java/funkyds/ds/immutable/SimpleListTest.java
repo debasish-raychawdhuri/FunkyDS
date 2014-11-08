@@ -1,4 +1,4 @@
-package funkyds.immutable;
+package funkyds.ds.immutable;
 
 import org.junit.Test;
 import static org.junit.Assert.*;

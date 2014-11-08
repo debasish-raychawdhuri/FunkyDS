@@ -1,20 +1,21 @@
-package funkyds.immutable.util;
+package funkyds.ds.immutable.util;
 
-import funkyds.immutable.List;
-import funkyds.immutable.SimpleList;
+import funkyds.ds.immutable.List;
+import funkyds.ds.immutable.SimpleList;
 
 import java.util.Iterator;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class FlatMapperList<E, F> implements List<F> {
-	private final List<E> containedList;
-	private final Function<E, List<F>> flatMapper;
+public class MapperList<E, F> implements List<F> {
 
-	public FlatMapperList(List<E> containedList, Function<E, List<F>> flatMapper) {
+	private final List<E> containedList;
+	private final Function<E, F> mapper;
+
+	public MapperList(List<E> containedList, Function<E, F> mapper) {
 		super();
 		this.containedList = containedList;
-		this.flatMapper = flatMapper;
+		this.mapper = mapper;
 	}
 
 	@Override
@@ -24,22 +25,7 @@ public class FlatMapperList<E, F> implements List<F> {
 
 	@Override
 	public Optional<F> get(int index) {
-		Optional<List<F>> first = containedList.head().map(flatMapper);
-		if (first.isPresent()) {
-			List<F> firstList = first.get();
-			if (firstList.isEmpty()) {
-				return Optional.empty();
-			} else {
-				if (firstList.length() > index) {
-					return firstList.get(index);
-				} else {
-					return containedList.tail().flatMap(flatMapper)
-							.get(index - firstList.length());
-				}
-			}
-		} else {
-			return Optional.empty();
-		}
+		return containedList.get(index).map(mapper);
 	}
 
 	@Override
@@ -61,7 +47,7 @@ public class FlatMapperList<E, F> implements List<F> {
 	public boolean contains(F item) {
 		if (containedList.isEmpty()) {
 			return false;
-		} else if (containedList.flatMap(flatMapper).head()
+		} else if (containedList.head().map(mapper)
 				.equals(Optional.ofNullable(item))) {
 			return true;
 		} else {
@@ -73,7 +59,7 @@ public class FlatMapperList<E, F> implements List<F> {
 	public boolean contains(Function<F, Boolean> selector) {
 		if (containedList.isEmpty()) {
 			return false;
-		} else if (this.head().map(selector).get()) {
+		} else if (containedList.head().map(mapper).map(selector).get()) {
 			return true;
 		} else {
 			return tail().contains(selector);
@@ -82,33 +68,12 @@ public class FlatMapperList<E, F> implements List<F> {
 
 	@Override
 	public Optional<F> head() {
-		Optional<List<F>> headList = containedList.head().map(flatMapper);
-		if (headList.isPresent()) {
-			if (headList.get().length() > 0) {
-				return headList.get().head();
-			} else {
-				return tail().head();
-			}
-
-		} else {
-			return tail().head();
-		}
-
+		return containedList.head().map(mapper);
 	}
 
 	@Override
 	public List<F> tail() {
-		Optional<List<F>> headList = containedList.head().map(flatMapper);
-		if (headList.isPresent()) {
-			if (headList.get().length() > 0) {
-				return headList.get().tail();
-			} else {
-				return containedList.tail().flatMap(flatMapper);
-			}
-
-		} else {
-			return containedList.tail().flatMap(flatMapper);
-		}
+		return containedList.tail().map(mapper);
 	}
 
 	@Override
@@ -132,4 +97,5 @@ public class FlatMapperList<E, F> implements List<F> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 }

@@ -1,6 +1,6 @@
-package funkyds.immutable.util;
+package funkyds.ds.immutable.util;
 
-import funkyds.immutable.List;
+import funkyds.ds.immutable.List;
 
 import java.util.Optional;
 import java.util.function.Function;

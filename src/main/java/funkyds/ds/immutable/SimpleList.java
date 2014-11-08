@@ -1,4 +1,4 @@
-package funkyds.immutable;
+package funkyds.ds.immutable;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;

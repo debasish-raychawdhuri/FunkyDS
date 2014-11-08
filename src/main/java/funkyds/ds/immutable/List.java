@@ -1,4 +1,4 @@
-package funkyds.immutable;
+package funkyds.ds.immutable;
 
 import java.util.Optional;
 import java.util.function.Function;

@@ -1,7 +1,7 @@
-package funkyds.immutable.util;
+package funkyds.ds.immutable.util;
 
-import funkyds.immutable.List;
-import funkyds.immutable.SimpleList;
+import funkyds.ds.immutable.List;
+import funkyds.ds.immutable.SimpleList;
 
 import java.util.Iterator;
 import java.util.Optional;
